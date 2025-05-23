@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -14,7 +15,10 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
     UserModule,
     PostModule,
-    CommentModule
+    CommentModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
