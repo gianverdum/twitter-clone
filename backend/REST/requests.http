@@ -1,0 +1,62 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NmMwZmI4ZC0yM2Q2LTQwZTEtYjljOS0zMTc4OTRjYjdkY2IiLCJlbWFpbCI6ImFnaWVAZW1haWwuY29tIiwiaWF0IjoxNzQ4MDIwNzk4LCJleHAiOjE3NDgwMjQzOTh9.R6G2HtMqOlOLZlPMtKYtqJaXYj6xK8whpBjI-RigcoQ
+
+### Create user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Angelina Jolie",
+  "email": "agie@email.com",
+  "password": "P4$$word123"
+}
+
+### Login user
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "agie@email.com",
+  "password": "P4$$word123"
+}
+
+### Query all users
+GET http://localhost:3000/users
+Authorization: Bearer {{token}}
+
+### Query user by ID
+GET http://localhost:3000/users/56c0fb8d-23d6-40e1-b9c9-317894cb7dcb
+Authorization: Bearer {{token}}
+
+### Create post
+POST http://localhost:3000/posts
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "My first post",
+  "content": "This is the content of my first post",
+  "authorId": "56c0fb8d-23d6-40e1-b9c9-317894cb7dcb"
+}
+
+### Query all posts
+GET http://localhost:3000/posts
+Authorization: Bearer {{token}}
+
+### Query post by ID
+GET http://localhost:3000/posts/0637d8d8-54cc-4619-a573-cada454e1285
+Authorization: Bearer {{token}}
+
+### Create comment
+POST http://localhost:3000/comments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "comment": "Great post!",
+  "postId": "0637d8d8-54cc-4619-a573-cada454e1285",
+  "authorId": "56c0fb8d-23d6-40e1-b9c9-317894cb7dcb"
+}
+
+### Query all comments
+GET http://localhost:3000/comments
+Authorization: Bearer {{token}}
