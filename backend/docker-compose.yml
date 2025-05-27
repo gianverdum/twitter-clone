@@ -1,17 +1,15 @@
 services:
   app:
+    container_name: backend-app
     build:
       context: .
       dockerfile: Dockerfile.dev
-      args:
-        USER_ID: ${USER_ID:-1000}
-        GROUP_ID: ${GROUP_ID:-1000}
     ports:
       - '3000:3000'
     depends_on:
       - db
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/typeorm_db
+    env_file:
+      - .env
     volumes:
       - .:/app:cached
       - /app/node_modules  # Evita que o host sobrescreva os node_modules do container
@@ -23,12 +21,10 @@ services:
   db:
     image: postgres:15
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: typeorm_db
+    env_file:
+    - .env
     ports:
-      - '5432:5432'
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:

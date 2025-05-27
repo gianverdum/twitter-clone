@@ -1,5 +1,6 @@
 services:
   app:
+    container_name: backend-app
     build:
       context: .
       dockerfile: Dockerfile.prod
@@ -7,20 +8,18 @@ services:
       - '3000:3000'
     depends_on:
       - db
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/typeorm_db
+    env_file:
+      - .env
     networks:
       - app-network
 
   db:
     image: postgres:15
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: typeorm_db
+    env_file:
+    - .env
     ports:
-      - '5432:5432'
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
