@@ -3,6 +3,8 @@ import { AuthProvider } from "@/auth/AuthContext"
 import BaseLayout from "@/layouts/BaseLayout"
 import Home from "@/pages/Home"
 import Login from "@/pages/Login"
+import Register from "@/pages/Register"
+import PrivateRoute from "@/routes/PrivateRoute"
 
 
 export default function AppRouter() {
@@ -11,8 +13,13 @@ export default function AppRouter() {
       <AuthProvider> {/* <- envolve para fornecer contexto */}
         <BaseLayout>
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            } />
           </Routes>
         </BaseLayout>
       </AuthProvider>

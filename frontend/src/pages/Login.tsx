@@ -17,8 +17,16 @@ export default function Login() {
     try {
       await login(email, password)
       navigate("/") // redireciona para home após login
-    } catch (err) {
-      setError("Invalid credentials")
+    } catch (error: any) {
+      const message = error?.response?.data?.message
+
+      if (typeof message === "string") {
+        setError(message)
+      } else if (Array.isArray(message)) {
+        setError(message.join("\n"))
+      } else {
+        setError("Erro ao fazer login")
+      }
     }
   }
 
@@ -49,6 +57,16 @@ export default function Login() {
         <Button type="submit" className="w-full">
           Entrar
         </Button>
+        <p className="text-center text-sm text-gray-600">
+          Não tem uma conta?{" "}
+          <a
+            href="/register"
+            className="font-medium text-blue-600 hover:underline"
+          >
+            Cadastre-se
+          </a>
+        </p>
+
       </form>
     </div>
   )
