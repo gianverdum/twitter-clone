@@ -39,9 +39,30 @@ export default function Register() {
       >
         <h2 className="text-2xl font-bold text-center">Criar Conta</h2>
 
-        <Input placeholder="Nome" value={name} onChange={(e) => setName(e.target.value)} />
-        <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <Input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <Input
+        type="text"
+        placeholder="Nome"
+        name="name"
+        autoComplete="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        />
+        <Input
+        type="email"
+        placeholder="Email"
+        name="email"
+        autoComplete="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+        type="password"
+        placeholder="Senha"
+        name="password"
+        autoComplete="new-password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        />
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
