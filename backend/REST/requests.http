@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
   "name": "Angelina Jolie",
-  "email": "agie@email.com",
+  "email": "angie@email.com",
   "password": "P4$$word123"
 }
 
@@ -15,7 +15,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email": "agie@email.com",
+  "email": "angie@email.com",
   "password": "P4$$word123"
 }
 
