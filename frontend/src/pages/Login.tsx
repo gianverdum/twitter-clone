@@ -1,31 +1,35 @@
+import { useForm } from "react-hook-form";
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/auth/useAuth"
 import { useNavigate } from "react-router-dom"
 
+type LoginFormInputs = {
+  email: string;
+  password: string;
+}
+
 export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const {register, handleSubmit, formState: { errors}} = useForm<LoginFormInputs>()
+  const [apiError, setApiError] = useState("")
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (data: LoginFormInputs) => {
     try {
-      await login(email, password)
+      await login(data.email, data.password)
       navigate("/feed")
     } catch (error: any) {
       const message = error?.response?.data?.message
 
       if (typeof message === "string") {
-        setError(message)
+        setApiError(message)
       } else if (Array.isArray(message)) {
-        setError(message.join("\n"))
+        setApiError(message.join("\n"))
       } else {
-        setError("Error logging in")
+        setApiError("Error logging in")
       }
     }
   }
@@ -33,30 +37,28 @@ export default function Login() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-8 rounded shadow-md w-full max-w-sm space-y-4"
       >
         <h2 className="text-2xl font-bold text-center">Login</h2>
 
         <Input
           type="email"
-          name="email"
           autoComplete="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register("email", { required: "Email is required" })}
         />
+        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
 
         <Input
           type="password"
-          name="password"
           autoComplete="current-password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register("password", { required: "Password is required" })}
         />
+        {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {apiError && <p className="text-red-500 text-sm">{apiError}</p>}
 
         <Button type="submit" className="w-full">
           Sign in

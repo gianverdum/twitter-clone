@@ -1,49 +1,51 @@
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { createPost } from "@/api/posts"
-import { useNavigate } from "react-router-dom"
-import { useAuth } from "@/auth/useAuth"
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { createPost } from "@/api/posts";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/auth/useAuth";
+import { useState } from "react";
+
+type PostFormInputs = {
+  title: string;
+  content: string;
+};
 
 export default function NewPost() {
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState("")
-  const [error, setError] = useState("")
-  const navigate = useNavigate()
-  const { user } = useAuth()
+  const { register, handleSubmit, formState: { errors } } = useForm<PostFormInputs>();
+  const [apiError, setApiError] = useState("");
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("📝 Content to post:", content)
-    console.log("👤 Author ID:", user?.id)
-
+  const onSubmit = async (data: PostFormInputs) => {
     try {
-      await createPost(title, content, user!.id)
-      navigate("/feed")
+      await createPost(data.title, data.content, user!.id);
+      navigate("/feed");
     } catch (err: any) {
-      const msg = err?.response?.data?.message
-      setError(Array.isArray(msg) ? msg.join("\n") : "Error creating post")
+      const msg = err?.response?.data?.message;
+      setApiError(Array.isArray(msg) ? msg.join("\n") : "Error creating post");
     }
-  }
+  };
 
   return (
     <div className="max-w-xl mx-auto mt-8">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <Input
           placeholder="Post title"
-          value={title}
-          name="title"
-          onChange={(e) => setTitle(e.target.value)}
+          {...register("title", { required: "Title is required" })}
         />
+        {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+
         <Input
           placeholder="Type your post content here..."
-          value={content}
-          name="content"
-          onChange={(e) => setContent(e.target.value)}
+          {...register("content", { required: "Content is required" })}
         />
-        {error && <div className="text-red-500 text-sm whitespace-pre-line">{error}</div>}
+        {errors.content && <p className="text-red-500 text-sm">{errors.content.message}</p>}
+
+        {apiError && <div className="text-red-500 text-sm whitespace-pre-line">{apiError}</div>}
+
         <Button type="submit">Publish</Button>
       </form>
     </div>
-  )
+  );
 }

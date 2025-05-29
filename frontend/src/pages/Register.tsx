@@ -1,84 +1,77 @@
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { api } from "@/api/api"
-import { Link, useNavigate } from "react-router-dom"
-import { useAuth } from "@/auth/useAuth"
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { api } from "@/api/api";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/auth/useAuth";
+import { useState } from "react";
+
+type RegisterFormInputs = {
+  name: string;
+  email: string;
+  password: string;
+};
 
 export default function Register() {
-  const navigate = useNavigate()
-  const { login } = useAuth()
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormInputs>();
+  const [apiError, setApiError] = useState("");
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (data: RegisterFormInputs) => {
     try {
-      await api.post("/users", { name, email, password })
-      await login(email, password)
-      navigate("/")
+      await api.post("/users", data);
+      await login(data.email, data.password);
+      navigate("/");
     } catch (error: any) {
-      const messages = error?.response?.data?.message
-
-      if (Array.isArray(messages)) {
-        setError(messages.join("\n"))
-      } else {
-        setError("Erro ao criar conta")
-      }
+      const messages = error?.response?.data?.message;
+      setApiError(Array.isArray(messages) ? messages.join("\n") : "Erro ao criar conta");
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <form
-        onSubmit={handleRegister}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-8 rounded shadow-md w-full max-w-sm space-y-4"
       >
         <h2 className="text-2xl font-bold text-center">Create an account</h2>
 
         <Input
-        type="text"
-        placeholder="Name"
-        name="name"
-        autoComplete="name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+          type="text"
+          placeholder="Name"
+          autoComplete="name"
+          {...register("name", { required: "Name is required" })}
         />
-        <Input
-        type="email"
-        placeholder="Email"
-        name="email"
-        autoComplete="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-        type="password"
-        placeholder="Password"
-        name="password"
-        autoComplete="new-password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        />
+        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        <Input
+          type="email"
+          placeholder="Email"
+          autoComplete="email"
+          {...register("email", { required: "Email is required" })}
+        />
+        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
 
-        <Button type="submit" className="w-full">
-          Sign up
-        </Button>
+        <Input
+          type="password"
+          placeholder="Password"
+          autoComplete="new-password"
+          {...register("password", { required: "Password is required" })}
+        />
+        {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+
+        {apiError && <p className="text-red-500 text-sm">{apiError}</p>}
+
+        <Button type="submit" className="w-full">Sign up</Button>
+
         <p className="text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a
-            href="/login"
-            className="font-medium text-blue-600 hover:underline"
-          >
+          <a href="/login" className="font-medium text-blue-600 hover:underline">
             Sign in
           </a>
         </p>
       </form>
     </div>
-  )
+  );
 }
