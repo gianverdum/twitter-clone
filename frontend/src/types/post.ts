@@ -25,4 +25,5 @@ export type Comment = {
       name: string;
     }
   }
+  replies?: Comment[];
 }

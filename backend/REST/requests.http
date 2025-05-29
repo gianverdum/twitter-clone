@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZDczYzc3OC0zNzIwLTRhNWMtOGJhYS04YTgzNDk1N2M2YzEiLCJlbWFpbCI6ImFuZ2llQGVtYWlsLmNvbSIsImlhdCI6MTc0ODQ2MTgyMSwiZXhwIjoxNzQ4NDY1NDIxfQ.bmLH0RmJmmrWnx89baPVlDKOXzuzUZgJOslhzBiEj58
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZDczYzc3OC0zNzIwLTRhNWMtOGJhYS04YTgzNDk1N2M2YzEiLCJlbWFpbCI6ImFuZ2llQGVtYWlsLmNvbSIsImlhdCI6MTc0ODU1NjMxOCwiZXhwIjoxNzQ4NTU5OTE4fQ.nUGFDpJugN_jvn7519lDEw3RpuQTzVEz2wwsljlMVns
 
 ### Create user
 POST http://localhost:3000/users
@@ -52,9 +52,9 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "comment": "Great post!",
-  "postId": "472d8da8-bbd4-45f3-b700-0636bcfbe307",
-  "authorId": "4d73c778-3720-4a5c-8baa-8a834957c6c1"
+  "comment": "That's how they measure pants IN PRISON!",
+  "postId": "05c40242-f9b1-454d-ba7a-4bde6d0ee76c",
+  "authorId": "c270bc9a-9846-4041-b061-c652ae33d795"
 }
 
 ### Query all comments

@@ -29,7 +29,7 @@ export default function PostCard({ post }: { post: Post }) {
         </div>
       </div>
 
-      <CommentList comments={comments} />
+      <CommentList comments={comments} postId={post.id} />
 
       <CommentForm postId={post.id} onCommentCreated={handleNewComment} />
     </div>

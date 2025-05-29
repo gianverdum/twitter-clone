@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, Length } from "class-validator";
+import { IsNotEmpty, IsOptional, IsUUID, Length } from "class-validator";
 
 
 export class CreateCommentDto {
@@ -10,10 +10,15 @@ export class CreateCommentDto {
     comment: string;
 
     @ApiProperty({ example: 'uuid-of-post', description: 'ID of the post' })
-    @IsNotEmpty({message: 'Author ID is required'})
+    @IsNotEmpty({message: 'Post ID is required'})
     postId: string;
 
     @ApiProperty({ example: 'uuid-of-user', description: 'ID of the comment author' })
     @IsNotEmpty({message: 'Author ID is required'})
     authorId: string;
+
+    @ApiProperty({ example: 'uuid-of-parent-comment', description: 'Optional: parent comment ID', required: false })
+    @IsOptional()
+    @IsUUID()
+    parentId?: string;
  }

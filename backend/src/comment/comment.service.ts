@@ -31,10 +31,18 @@ export class CommentService {
 
     if (!post) throw new NotFoundException('Post not found');
 
+    let parent: Comment | null = null;
+
+    if (createCommentDto.parentId) {
+      parent = await this.commentRepository.findOneBy({ id: createCommentDto.parentId });
+      if (!parent) throw new NotFoundException('Parent comment not found');
+    }
+
     const comment = this.commentRepository.create({
       comment: createCommentDto.comment,
       author,
       post,
+      parent,
     } as Partial<Comment>)
 
     return this.commentRepository.save(comment);

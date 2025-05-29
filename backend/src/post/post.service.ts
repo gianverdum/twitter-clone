@@ -34,7 +34,19 @@ export class PostService {
   }
 
   async findAll(): Promise<PostReadDto[]> {
-    const posts = await this.postRepository.find({ relations: ['author', 'comments', 'comments.author'] });
+    const posts = await this.postRepository.find({
+      relations: [
+        'author',
+        'comments',
+        'comments.author',
+        'comments.parent',
+        'comments.parent.author',
+        'comments.replies',
+        'comments.replies.author',
+        'comments.replies.parent',
+        'comments.replies.parent.author',
+      ],
+     });
 
     return plainToInstance(PostReadDto, posts, {
       excludeExtraneousValues: true,
@@ -44,7 +56,17 @@ export class PostService {
   async findOne(id: string): Promise<PostReadDto> {
     const post = await this.postRepository.findOne({
       where: { id },
-      relations: ['author', 'comments', 'comments.author'],
+      relations: [
+        'author',
+        'comments',
+        'comments.author',
+        'comments.parent',
+        'comments.parent.author',
+        'comments.replies',
+        'comments.replies.author',
+        'comments.replies.parent',
+        'comments.replies.parent.author',
+      ],
     });
 
     if (!post) {

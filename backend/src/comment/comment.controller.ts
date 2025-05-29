@@ -11,6 +11,7 @@ export class CommentController {
 
   @Post()
   create(@Body() createCommentDto: CreateCommentDto) {
+    console.log('📦 Received DTO:', createCommentDto);
     return this.commentService.create(createCommentDto);
   }
 

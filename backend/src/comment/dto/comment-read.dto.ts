@@ -24,4 +24,14 @@ export class CommentReadDto {
     @Expose()
     @Type(() => UserPublicDto)
     author: UserPublicDto;
+
+    @ApiProperty({ type: CommentReadDto, required: false })
+    @Expose()
+    @Type(() => CommentReadDto)
+    parent?: CommentReadDto;
+
+    @ApiProperty({ type: [CommentReadDto], required: false })
+    @Expose()
+    @Type(() => CommentReadDto)
+    replies?: CommentReadDto[];
 }

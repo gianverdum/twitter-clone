@@ -4,15 +4,15 @@ import { enUS } from "date-fns/locale";
 import { CommentForm } from "./CommentForm";
 import type { Comment } from "@/types/post";
 
-
 type Props = {
   comments: Comment[];
   postId: string;
+  depth?: number;
 };
 
 const COMMENTS_PER_PAGE = 5;
 
-export function CommentList({ comments, postId }: Props) {
+export function CommentList({ comments, postId, depth = 0 }: Props) {
   const [visibleCount, setVisibleCount] = useState(1);
   const [activeReply, setActiveReply] = useState<string | null>(null);
 
@@ -29,17 +29,23 @@ export function CommentList({ comments, postId }: Props) {
   };
 
   return (
-    <div className="mt-4 space-y-4">
+    <div
+      className={`mt-4 space-y-4 ${
+        depth > 0 ? "pl-4 border-l-2 border-gray-200" : ""
+      }`}
+    >
       {visibleComments.map((c) => (
-        <div key={c.id} className="border rounded p-2">
-          {c.parent && (
-            <p className="text-xs text-gray-600">
+        <div key={c.id} className="border rounded p-2 bg-white">
+          {c.parent?.author?.name && (
+            <p className="text-xs text-gray-600 mb-1">
               Replying to <strong>{c.parent.author.name}</strong>
             </p>
           )}
+
           <p className="text-sm text-gray-800">
             <strong>{c.author.name}</strong>: {c.comment}
           </p>
+
           <p className="text-xs text-gray-500">
             {formatDistanceToNow(new Date(c.createdAt), {
               addSuffix: true,
@@ -61,10 +67,17 @@ export function CommentList({ comments, postId }: Props) {
                 parentId={c.id}
                 onCommentCreated={() => {
                   setActiveReply(null);
-                  // TODO: trigger comment reload
                 }}
               />
             </div>
+          )}
+
+          {depth < 2 && (c.replies?.length ?? 0) > 0 && (
+            <CommentList
+              comments={c.replies ?? []}
+              postId={postId}
+              depth={depth + 1}
+            />
           )}
         </div>
       ))}
@@ -75,7 +88,8 @@ export function CommentList({ comments, postId }: Props) {
             onClick={showMore}
             className="text-blue-600 text-sm hover:underline"
           >
-            {comments.length - visibleCount} more message{comments.length - visibleCount > 1 ? "s" : ""}
+            {comments.length - visibleCount} more message
+            {comments.length - visibleCount > 1 ? "s" : ""}
           </button>
         )}
 

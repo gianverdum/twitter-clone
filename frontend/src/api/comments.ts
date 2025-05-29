@@ -6,6 +6,8 @@ export async function createComment(
   authorId: string,
   parentId: string | null = null
 ) {
+  console.log("🚀 Sending comment payload:", { comment, postId, authorId, parentId });
+  
   const response = await api.post("/comments", {
     comment,
     postId,
