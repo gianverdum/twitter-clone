@@ -1,25 +1,39 @@
-# 🐦 Twitter Clone - Backend API
+# 🐦 Twitter Clone - Fullstack Project
 
-This is the backend API for a simplified Twitter clone built with **NestJS**, **TypeORM**, and **PostgreSQL**. It supports user registration, login, posting content, and commenting, with JWT-based authentication.
+This is a fullstack Twitter Clone built with **NestJS**, **PostgreSQL**, and **TypeScript** on the backend, and **React**, **Vite**, and **TailwindCSS** on the frontend. It supports user authentication, post creation, and feed display.
+
+---
 
 ## 🚀 Features
 
-- User registration and authentication
-- JWT token-based authorization
-- CRUD operations for users, posts, and comments
-- Protected routes using `@nestjs/passport`
-- Swagger API documentation
-- PostgreSQL database with TypeORM migrations
+- User registration and login (JWT-based authentication)
+- Post creation with title and content
+- Protected routes with route guarding
+- Responsive layout using TailwindCSS
+- Feed with sorted posts and relative timestamps
+- Top navigation menu with routing
+- Page not found (404) handling with a fun UI
 
 ---
 
 ## 🛠️ Tech Stack
 
+### Backend
+
 - **NestJS**
 - **PostgreSQL**
 - **TypeORM**
 - **Docker & Docker Compose**
-- **Jest** for testing (in progress)
+- **Jest** (tests in progress)
+
+### Frontend
+
+- **React**
+- **Vite**
+- **TypeScript**
+- **TailwindCSS**
+- **React Router DOM**
+- **Axios**
 
 ---
 
@@ -34,6 +48,18 @@ This is the backend API for a simplified Twitter clone built with **NestJS**, **
   │   ├── comment     # Comment module
   │   ├── config      # Configuration (env, constants)
   │   └── db          # TypeORM migrations
+
+/frontend
+  ├── src
+  │   ├── api         # Axios instances and API calls
+  │   ├── assets      # Static assets
+  │   ├── auth        # Auth context and hook
+  │   ├── components  # UI components
+  │   ├── layouts     # Page layout wrapper
+  │   ├── lib         # Utility functions
+  │   ├── pages       # Application pages
+  │   ├── routes      # Router configuration
+  │   └── types       # Shared TypeScript types
 ```
 
 ---
@@ -52,102 +78,57 @@ cd twitter-clone
 ```bash
 cd backend
 npm install
-```
-
-### 3. Rename and configure environment variables
-
-Copy and rename the provided template:
-
-```bash
 cp .env-template .env
-```
-
-Then edit `.env` and set your credentials:
-
-```env
-POSTGRES_HOST=your_postgres_host
-POSTGRES_PORT=your_postgres_port
-POSTGRES_USER=your_postgres_user
-POSTGRES_PASSWORD=your_postgres_password
-POSTGRES_DB=your_postgres_db
-JWT_SECRET=your_jwt_secret
-```
-
-### 4. Start development environment
-
-```bash
+# Edit .env and set DB and JWT settings
 make dev
-```
-
-> This builds and runs the backend using Docker.
-
-### 5. Generate initial migration
-
-Ensure `src/db/migrations/` is empty, then run:
-
-```bash
 make migration-generate
-```
-
-### 6. Run migrations
-
-```bash
 make migration-run
 ```
 
-### 7. Test API calls
+### 3. Install frontend dependencies
 
-Install the **REST Client** VSCode extension and open:
-
+```bash
+cd ../frontend
+npm install
+npm run dev
 ```
-backend/REST/requests.http
-```
-
-Click “Send Request” above each call to test the API.
 
 ---
 
 ## 📮 API Endpoints
 
-> Use a tool like **Rest Client**, **Postman**, or **cURL** to interact with the endpoints.
+Refer to `backend/REST/requests.http` or Swagger documentation.
 
-### 🔐 Auth
+### Auth
 
-```http
-POST /auth/login
-```
+- `POST /auth/login`
 
-### 👤 Users
+### Users
 
-```http
-POST /users
-GET /users
-GET /users/:id
-PATCH /users/:id
-DELETE /users/:id
-```
+- CRUD operations
 
-### 📝 Posts
+### Posts
 
-```http
-POST /posts
-GET /posts
-GET /posts/:id
-PATCH /posts/:id
-DELETE /posts/:id
-```
+- `POST /posts`
+- `GET /posts`
 
-### 💬 Comments
+### Comments
 
-```http
-POST /comments
-GET /comments
-GET /comments/:id
-PATCH /comments/:id
-DELETE /comments/:id
-```
+- In progress
 
-> All endpoints (except user creation and login) require `Authorization: Bearer <JWT>`.
+> All endpoints (except login and registration) require `Authorization: Bearer <token>`.
+
+---
+
+## 🧩 Frontend Highlights
+
+- ✅ Login and Register screens
+- ✅ Feed page (sorted by newest first)
+- ✅ New Post page
+- ✅ Navigation menu and user dropdown
+- ✅ Logout and token expiration handling
+- ✅ Page Not Found screen with emoji and redirect
+- ✅ Responsive design and layout
 
 ---
 
@@ -168,9 +149,10 @@ make migration-drop       # Drop schema
 
 ## ✅ To Do
 
-- Unit & e2e tests
-- Pagination for listing endpoints
-- Likes and retweets
+- Comments module
+- Post likes and retweets
+- Infinite scroll
+- Unit and integration tests
 
 ---
 
