@@ -1,6 +1,6 @@
 # 🐦 Twitter Clone - Fullstack Project
 
-This is a fullstack Twitter Clone built with **NestJS**, **PostgreSQL**, and **TypeScript** on the backend, and **React**, **Vite**, and **TailwindCSS** on the frontend. It supports user authentication, post creation, and feed display.
+This is a fullstack Twitter Clone built with **NestJS**, **PostgreSQL**, and **TypeScript** on the backend, and **React**, **Vite**, and **TailwindCSS** on the frontend. It supports user authentication, post creation, and a dynamic comment system with threaded replies.
 
 ---
 
@@ -8,9 +8,10 @@ This is a fullstack Twitter Clone built with **NestJS**, **PostgreSQL**, and **T
 
 - User registration and login (JWT-based authentication)
 - Post creation with title and content
+- Commenting system with nested replies (up to 2 levels)
+- Feed with sorted posts and relative timestamps
 - Protected routes with route guarding
 - Responsive layout using TailwindCSS
-- Feed with sorted posts and relative timestamps
 - Top navigation menu with routing
 - Page not found (404) handling with a fun UI
 
@@ -34,6 +35,7 @@ This is a fullstack Twitter Clone built with **NestJS**, **PostgreSQL**, and **T
 - **TailwindCSS**
 - **React Router DOM**
 - **Axios**
+- **React Hook Form**
 
 ---
 
@@ -45,7 +47,7 @@ This is a fullstack Twitter Clone built with **NestJS**, **PostgreSQL**, and **T
   │   ├── auth        # JWT login & strategy
   │   ├── user        # User module
   │   ├── post        # Post module
-  │   ├── comment     # Comment module
+  │   ├── comment     # Comment module with parent/child support
   │   ├── config      # Configuration (env, constants)
   │   └── db          # TypeORM migrations
 
@@ -54,7 +56,7 @@ This is a fullstack Twitter Clone built with **NestJS**, **PostgreSQL**, and **T
   │   ├── api         # Axios instances and API calls
   │   ├── assets      # Static assets
   │   ├── auth        # Auth context and hook
-  │   ├── components  # UI components
+  │   ├── components  # UI components (including CommentList)
   │   ├── layouts     # Page layout wrapper
   │   ├── lib         # Utility functions
   │   ├── pages       # Application pages
@@ -114,7 +116,9 @@ Refer to `backend/REST/requests.http` or Swagger documentation.
 
 ### Comments
 
-- In progress
+- `POST /comments`
+- Nested replies supported (via `parentId`)
+- Loaded with `comments.replies`, `comments.replies.author`, and `comments.replies.parent`
 
 > All endpoints (except login and registration) require `Authorization: Bearer <token>`.
 
@@ -125,6 +129,7 @@ Refer to `backend/REST/requests.http` or Swagger documentation.
 - ✅ Login and Register screens
 - ✅ Feed page (sorted by newest first)
 - ✅ New Post page
+- ✅ Comments with nesting and reply forms
 - ✅ Navigation menu and user dropdown
 - ✅ Logout and token expiration handling
 - ✅ Page Not Found screen with emoji and redirect
@@ -149,7 +154,6 @@ make migration-drop       # Drop schema
 
 ## ✅ To Do
 
-- Comments module
 - Post likes and retweets
 - Infinite scroll
 - Unit and integration tests
