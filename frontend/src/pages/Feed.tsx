@@ -9,7 +9,10 @@ export default function Feed() {
 
   useEffect(() => {
     getPosts().then((res) => {
-      setPosts(res.data as Post[])
+      const sorted = (res.data as Post[]).sort((a: Post, b: Post) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
+      setPosts(sorted)
     })
   }, [])
 

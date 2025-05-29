@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault()
     try {
       await login(email, password)
-      navigate("/") // redireciona para home após login
+      navigate("/feed")
     } catch (error: any) {
       const message = error?.response?.data?.message
 
@@ -25,7 +25,7 @@ export default function Login() {
       } else if (Array.isArray(message)) {
         setError(message.join("\n"))
       } else {
-        setError("Erro ao fazer login")
+        setError("Error logging in")
       }
     }
   }
@@ -59,15 +59,15 @@ export default function Login() {
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <Button type="submit" className="w-full">
-          Entrar
+          Sign in
         </Button>
         <p className="text-center text-sm text-gray-600">
-          Não tem uma conta?{" "}
+          Didn't have an account?{" "}
           <a
             href="/register"
             className="font-medium text-blue-600 hover:underline"
           >
-            Cadastre-se
+            Sign up
           </a>
         </p>
 

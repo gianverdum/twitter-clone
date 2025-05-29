@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { api } from "@/api/api"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "@/auth/useAuth"
 
 export default function Register() {
@@ -37,11 +37,11 @@ export default function Register() {
         onSubmit={handleRegister}
         className="bg-white p-8 rounded shadow-md w-full max-w-sm space-y-4"
       >
-        <h2 className="text-2xl font-bold text-center">Criar Conta</h2>
+        <h2 className="text-2xl font-bold text-center">Create an account</h2>
 
         <Input
         type="text"
-        placeholder="Nome"
+        placeholder="Name"
         name="name"
         autoComplete="name"
         value={name}
@@ -57,7 +57,7 @@ export default function Register() {
         />
         <Input
         type="password"
-        placeholder="Senha"
+        placeholder="Password"
         name="password"
         autoComplete="new-password"
         value={password}
@@ -67,8 +67,17 @@ export default function Register() {
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <Button type="submit" className="w-full">
-          Registrar
+          Sign up
         </Button>
+        <p className="text-center text-sm text-gray-600">
+          Already have an account?{" "}
+          <a
+            href="/login"
+            className="font-medium text-blue-600 hover:underline"
+          >
+            Sign in
+          </a>
+        </p>
       </form>
     </div>
   )

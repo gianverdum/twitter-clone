@@ -1,4 +1,5 @@
 import axios from "axios"
+import { logoutAndRedirect } from "@/auth/logoutHandler"
 
 export const api = axios.create({
   baseURL: "http://localhost:3000",
@@ -11,9 +12,17 @@ api.interceptors.request.use((config) => {
       ...config.headers,
       Authorization: `Bearer ${String(token)}`,
     }
-    console.log("🚀 Attaching token to request:", config.headers.Authorization)
-  } else {
-    console.warn("⚠️ No token found in localStorage")
   }
+
   return config
 })
+
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response?.status === 401) {
+      logoutAndRedirect
+    }
+    return Promise.reject(error)
+  }
+)

@@ -19,12 +19,10 @@ export default function NewPost() {
 
     try {
       await createPost(title, content, user!.id)
-      console.log("✅ Post created successfully")
       navigate("/feed")
     } catch (err: any) {
-      console.error("❌ Error creating post:", err)
       const msg = err?.response?.data?.message
-      setError(Array.isArray(msg) ? msg.join("\n") : "Erro ao criar post")
+      setError(Array.isArray(msg) ? msg.join("\n") : "Error creating post")
     }
   }
 
@@ -32,19 +30,19 @@ export default function NewPost() {
     <div className="max-w-xl mx-auto mt-8">
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
-          placeholder="Título do post"
+          placeholder="Post title"
           value={title}
           name="title"
           onChange={(e) => setTitle(e.target.value)}
         />
         <Input
-          placeholder="O que está acontecendo?"
+          placeholder="Type your post content here..."
           value={content}
           name="content"
           onChange={(e) => setContent(e.target.value)}
         />
         {error && <div className="text-red-500 text-sm whitespace-pre-line">{error}</div>}
-        <Button type="submit">Publicar</Button>
+        <Button type="submit">Publish</Button>
       </form>
     </div>
   )
