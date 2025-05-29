@@ -18,6 +18,7 @@ export const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -26,17 +27,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         setUser(JSON.parse(userData))
       } catch {
-        localStorage.removeItem("user") // limpa se estiver corrompido
+        localStorage.removeItem("user")
       }
     }
+    setIsLoading(false)
 }, [])
 
   const login = async (email: string, password: string) => {
     const response = await api.post("/auth/login", { email, password })
-    const data = response.data as { access_token: string; user: User }
-    const { access_token, user } = data
+    console.log("🔐 Login response:", response.data)
+
+    const data = response.data as { access_token: { access_token: string }; user: User }
+    const token = data.access_token.access_token
+    const user = data.user
+
+    console.log("✅ Parsed token:", token)
+    console.log("👤 User info:", user)
     
-    localStorage.setItem("token", access_token)
+    localStorage.setItem("token", token)
     localStorage.setItem("user", JSON.stringify(user))
     setUser(user)
   }
@@ -49,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
+      {!isLoading && children}
     </AuthContext.Provider>
   )
 }

@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Yzc4OTdhMS0zNDgzLTQ1MWUtOWMwYS1mNjhiNjFlODAyZGQiLCJlbWFpbCI6ImFnaWVAZW1haWwuY29tIiwiaWF0IjoxNzQ4MzUzNjQ1LCJleHAiOjE3NDgzNTcyNDV9.5UlPS3V1W4-w_KcmIXHtc4NLV0BlYogMakPY7PyF7vU
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZDczYzc3OC0zNzIwLTRhNWMtOGJhYS04YTgzNDk1N2M2YzEiLCJlbWFpbCI6ImFuZ2llQGVtYWlsLmNvbSIsImlhdCI6MTc0ODQ2MTgyMSwiZXhwIjoxNzQ4NDY1NDIxfQ.bmLH0RmJmmrWnx89baPVlDKOXzuzUZgJOslhzBiEj58
 
 ### Create user
 POST http://localhost:3000/users
@@ -35,7 +35,7 @@ Authorization: Bearer {{token}}
 {
   "title": "My first post",
   "content": "This is the content of my first post",
-  "authorId": "4c7897a1-3483-451e-9c0a-f68b61e802dd"
+  "authorId": "e2cc8f5c-2f5f-4b3f-883b-12b70487aaa7"
 }
 
 ### Query all posts
@@ -53,8 +53,8 @@ Authorization: Bearer {{token}}
 
 {
   "comment": "Great post!",
-  "postId": "7f78e945-63d4-4b1c-b9da-0702ced2681c",
-  "authorId": "4c7897a1-3483-451e-9c0a-f68b61e802dd"
+  "postId": "472d8da8-bbd4-45f3-b700-0636bcfbe307",
+  "authorId": "4d73c778-3720-4a5c-8baa-8a834957c6c1"
 }
 
 ### Query all comments
