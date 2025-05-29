@@ -5,6 +5,7 @@ import Home from "@/pages/Home"
 import Login from "@/pages/Login"
 import NewPost from "@/pages/NewPost"
 import Register from "@/pages/Register"
+import NotFound from "@/pages/NotFound"
 import PrivateRoute from "@/routes/PrivateRoute"
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
 
@@ -41,6 +42,7 @@ export default function AppRouter() {
                 </PrivateRoute>
               }
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BaseLayout>
       </AuthProvider>
