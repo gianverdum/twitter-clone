@@ -3,7 +3,7 @@ import { api } from "@/api/api"
 import type { ReactNode } from "react"
 
 type User = {
-  id: number
+  id: string
   name: string
   email: string
 }
