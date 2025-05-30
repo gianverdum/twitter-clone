@@ -1,3 +1,4 @@
+
 # 🐦 Twitter Clone - Fullstack Project
 
 This is a fullstack Twitter Clone built with **NestJS**, **PostgreSQL**, and **TypeScript** on the backend, and **React**, **Vite**, and **TailwindCSS** on the frontend. It supports user authentication, post creation, and a dynamic comment system with threaded replies.
@@ -33,6 +34,7 @@ This is a fullstack Twitter Clone built with **NestJS**, **PostgreSQL**, and **T
 - **Vite**
 - **TypeScript**
 - **TailwindCSS**
+- **shadcn/ui**
 - **React Router DOM**
 - **Axios**
 - **React Hook Form**
@@ -87,13 +89,15 @@ make migration-generate
 make migration-run
 ```
 
-### 3. Install frontend dependencies
+### 3. Install frontend dependencies and run
 
 ```bash
 cd ../frontend
 npm install
-npm run dev
+make dev
 ```
+
+> Make sure to set `VITE_API_URL` in a `.env` file or in the Vercel dashboard if deploying.
 
 ---
 
@@ -139,6 +143,8 @@ Refer to `backend/REST/requests.http` or Swagger documentation.
 
 ## 🐳 Makefile Shortcuts
 
+### Backend
+
 ```bash
 make dev                  # Start dev environment
 make prod                 # Build for production
@@ -148,6 +154,15 @@ make migration-generate   # Generate migration
 make migration-run        # Run migrations
 make migration-revert     # Revert last migration
 make migration-drop       # Drop schema
+```
+
+### Frontend
+
+```bash
+make dev      # Start frontend dev container
+make clean    # Clean up frontend container and images
+make shell    # Access the frontend container shell
+make status   # Check frontend container status
 ```
 
 ---
