@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,7 +19,7 @@ export class UserService {
       email: createUserDto.email,
     });
     if (userExists) {
-      throw new NotFoundException(`User with email ${createUserDto.email} already exists`);
+      throw new ConflictException(`User with email ${createUserDto.email} already exists`);
     }
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
